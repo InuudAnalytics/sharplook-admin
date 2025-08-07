@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@font-face {
+  font-family: PoppinsBlack;
+  src: url("./assets/fonts/Poppins-Black.ttf");
+}
+
+@font-face {
+  font-family: PoppinsBold;
+  src: url("./assets/fonts/Poppins-Bold.ttf");
+}
+
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("./assets/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: PoppinsRegular;
+  src: url("./assets/fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: PoppinsSemiBold;
+  src: url("./assets/fonts/Poppins-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: PoppinsLight;
+  src: url("./assets/fonts/Poppins-Light.ttf");
+}
+
+@font-face {
+  font-family: PoppinsExtraBold;
+  src: url("./assets/fonts/Poppins-ExtraBold.ttf");
+}
+@font-face {
+  font-family: PoppinsThin;
+  src: url("./assets/fonts/Poppins-Thin.ttf");
+}
+
+@theme {
+  --font-poppins-black: "PoppinsBlack", sans-serif;
+  --font-poppins-bold: "PoppinsBold", sans-serif;
+  --font-poppins-medium: "PoppinsMedium", sans-serif;
+  --font-poppins-regular: "PoppinsRegular", sans-serif;
+  --font-poppins-semi-bold: "PoppinsSemiBold", sans-serif;
+  --font-poppins-light: "PoppinsLight", sans-serif;
+  --font-poppins-extra-bold: "PoppinsExtraBold", sans-serif;
+  --font-poppins-thin: "PoppinsThin", sans-serif;
+  --color-pink: #eb278d;
+  --color-blue: #0096ff;
+  --color-lightpink: #fcdfee;
+  --color-green: #0b902d;
+  --color-yellow: #f8bd00;
+  --color-red: #f21c1c;
+  --color-lightgray: #eff2f6;
+  --color-gray: #00000080;
+}
+
+@keyframes toast-in {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.font-poppins-regular {
+  font-family: var(--font-poppins-regular);
+}

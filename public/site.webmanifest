@@ -1,0 +1,14 @@
+{
+  "name": "SharpLook Admin App",
+  "short_name": "SharpLook Admin",
+  "description": "Comprehensive admin app for SharpLook platform management",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/src/assets/img/sharplooklogo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
