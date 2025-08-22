@@ -202,47 +202,7 @@ const Overview = () => {
   const handleViewBooking = (booking: Booking) => {
     navigate("/bookings/detail", {
       state: {
-        booking: {
-          ...booking,
-          bookingId: `#${booking.id.slice(-8)}`,
-          dateBooked: formatDate(booking.createdAt),
-          services: [
-            {
-              name: booking.serviceName,
-              amount: new Intl.NumberFormat("en-NG", {
-                style: "currency",
-                currency: "NGN",
-                minimumFractionDigits: 2,
-              }).format(booking.price),
-            },
-          ],
-          payment: {
-            total: new Intl.NumberFormat("en-NG", {
-              style: "currency",
-              currency: "NGN",
-              minimumFractionDigits: 2,
-            }).format(booking.totalAmount),
-            ussd: new Intl.NumberFormat("en-NG", {
-              style: "currency",
-              currency: "NGN",
-              minimumFractionDigits: 2,
-            }).format(booking.totalAmount - booking.price),
-          },
-          customer: {
-            name: booking.client
-              ? `${booking.client.firstName} ${booking.client.lastName}`
-              : "Unknown Client",
-            phone: booking.client?.phone || "N/A",
-            address: booking.fullAddress || "Not provided",
-          },
-          vendor: {
-            name: booking.vendor
-              ? `${booking.vendor.firstName} ${booking.vendor.lastName}`
-              : "Unknown Vendor",
-            phone: booking.vendor?.phone || "N/A",
-            address: booking.fullAddress || "Not provided",
-          },
-        },
+        booking: booking,
       },
     });
   };

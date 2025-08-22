@@ -8,6 +8,7 @@ import { Suspense, lazy } from "react";
 import { ScaleLoader } from "react-spinners";
 import "./App.css";
 import useAppContext from "./context/useAppContext";
+// import TawkTo from "./components/TawkTo";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Overview = lazy(() => import("./pages/Dashboard/Overview"));
@@ -25,7 +26,7 @@ const EditProduct = lazy(() => import("./pages/Product/EditProduct"));
 const DisputeDetail = lazy(() => import("./pages/Disputes/DisputeDetail"));
 const AdminProfile = lazy(() => import("./pages/ManageUsers/AdminProfile"));
 const Notification = lazy(() => import("./pages/Notification/Notification"));
-const ChatInbox = lazy(() => import("./pages/ChatInbox"));
+// const ChatInbox = lazy(() => import("./pages/ChatInbox"));
 const TransactionHistory = lazy(
   () => import("./pages/TransactionHistory/TransactionHistory")
 );
@@ -43,49 +44,52 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 function App() {
   return (
-    <Router>
-      <Suspense
-        fallback={
-          <div className="min-h-screen flex items-center justify-center">
-            <ScaleLoader color="#EB278D" />
-          </div>
-        }
-      >
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <MainLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<Overview />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="product" element={<Product />} />
-            <Route path="product/detail" element={<ProductDetail />} />
-            <Route path="product/edit" element={<EditProduct />} />
-            <Route path="bookings" element={<Bookings />} />
-            <Route path="bookings/detail" element={<BookingsDetail />} />
-            <Route path="manage-users" element={<ManageUsers />} />
-            <Route path="services" element={<Services />} />
-            <Route path="services/detail" element={<ServiceDetail />} />
-            <Route path="disputes" element={<Disputes />} />
-            <Route path="disputes/:id" element={<DisputeDetail />} />
-            <Route path="adminprofile" element={<AdminProfile />} />
-            <Route path="notification" element={<Notification />} />
-            <Route path="chat-inbox" element={<ChatInbox />} />
+    <>
+      {/* <TawkTo /> */}
+      <Router>
+        <Suspense
+          fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              <ScaleLoader color="#EB278D" />
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route
-              path="transaction-history"
-              element={<TransactionHistory />}
-            />
-          </Route>
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
-      </Suspense>
-    </Router>
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <MainLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="dashboard" element={<Overview />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="product" element={<Product />} />
+              <Route path="product/detail" element={<ProductDetail />} />
+              <Route path="product/edit" element={<EditProduct />} />
+              <Route path="bookings" element={<Bookings />} />
+              <Route path="bookings/detail" element={<BookingsDetail />} />
+              <Route path="manage-users" element={<ManageUsers />} />
+              <Route path="services" element={<Services />} />
+              <Route path="services/detail" element={<ServiceDetail />} />
+              <Route path="disputes" element={<Disputes />} />
+              <Route path="disputes/:id" element={<DisputeDetail />} />
+              <Route path="adminprofile" element={<AdminProfile />} />
+              <Route path="notification" element={<Notification />} />
+              {/* <Route path="chat-inbox" element={<ChatInbox />} /> */}
+              <Route
+                path="transaction-history"
+                element={<TransactionHistory />}
+              />
+            </Route>
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </>
   );
 }
 

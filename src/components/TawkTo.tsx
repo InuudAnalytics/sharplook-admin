@@ -1,7 +1,7 @@
-import React from "react";
+import { useEffect } from "react";
 
-const ChatInbox: React.FC = () => {
-  React.useEffect(() => {
+const TawkTo = () => {
+  useEffect(() => {
     // Prevent script from being added multiple times
     if (document.getElementById("tawkto-script")) return;
 
@@ -13,6 +13,7 @@ const ChatInbox: React.FC = () => {
     s1.setAttribute("crossorigin", "*");
     document.body.appendChild(s1);
 
+    // Cleanup on unmount
     return () => {
       if (s1.parentNode) {
         s1.parentNode.removeChild(s1);
@@ -20,15 +21,7 @@ const ChatInbox: React.FC = () => {
     };
   }, []);
 
-  return (
-    <div className="h-full flex flex-col items-center justify-center bg-[#fafbfc] pt-10">
-      <h2 className="text-2xl font-semibold mb-4">Admin Support Chat</h2>
-      <p className="text-gray-600 mb-8">
-        Use the chat widget at the bottom right to communicate with vendors and
-        clients.
-      </p>
-    </div>
-  );
+  return null;
 };
 
-export default ChatInbox;
+export default TawkTo;

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { DateConverter } from "../../components/DateConverter";
 import { HttpClient } from "../../../api/HttpClient";
 
 import { isAxiosError } from "axios";
 import { useToast } from "../../components/useToast";
 import { ScaleLoader } from "react-spinners";
+import { DateTimeConverter } from "../../components/DateTimeConverter";
 
 // Define types based on API response
 interface DisputeUser {
@@ -47,6 +47,7 @@ interface Dispute {
   createdAt: string;
   raisedBy: DisputeUser;
   booking: DisputeBooking;
+  disputeImage?: string; // Added for product disputes
 }
 
 const DisputeDetail = () => {
@@ -58,12 +59,19 @@ const DisputeDetail = () => {
   const handleDispute = async () => {
     setMarking(true);
     try {
-      const res = await HttpClient.patch(
-        `admin/disputes/${dispute?.id}/resolve`,
-        {
+      let res;
+      // If product dispute (has vendorOrderId or disputeImage), use product endpoint
+      if (dispute && ("vendorOrderId" in dispute || dispute.disputeImage)) {
+        res = await HttpClient.patch("/disputes/updateDispute", {
+          status: "RESOLVED",
+          disputeId: dispute.id,
+        });
+      } else {
+        // Service dispute (default logic)
+        res = await HttpClient.patch(`admin/disputes/${dispute?.id}/resolve`, {
           resolution: `Resolved in favor of ${dispute?.raisedBy.firstName} ${dispute?.raisedBy.lastName}`,
-        }
-      );
+        });
+      }
       showToast(res.data.message, { type: "success" });
       navigate(-1);
     } catch (error) {
@@ -92,7 +100,6 @@ const DisputeDetail = () => {
       </div>
     );
   }
-  console.log(dispute.booking.referencePhoto);
   return (
     <div className="p-8 bg-lightgray pt-[80px] min-h-screen">
       <div className="bg-white rounded-[5px] mx-auto p-8 min-h-[500px] max-w-5xl relative">
@@ -105,7 +112,7 @@ const DisputeDetail = () => {
           <span>
             Date of complaint:{" "}
             <span className="text-black">
-              {DateConverter(dispute.createdAt)}
+              {DateTimeConverter(dispute.createdAt)}
             </span>
           </span>
           <span>|</span>
@@ -144,13 +151,27 @@ const DisputeDetail = () => {
           <div className="text-[#C5C5C5] text-[14px] font-poppins-regular leading-relaxed">
             {dispute.reason}
           </div>
-          {!dispute?.booking.referencePhoto && (
+          {/* Show service dispute image if available */}
+          {dispute?.booking?.referencePhoto && (
             <div className="my-6">
               <span className="text-black font-semibold block mb-1 text-[16px] font-poppins-medium">
                 Picture Added
               </span>
               <img
-                src={dispute?.booking.referencePhoto || undefined}
+                src={dispute.booking.referencePhoto}
+                alt="Dispute evidence"
+                className="border border-gray-400 rounded w-[220px] h-auto object-contain bg-white"
+              />
+            </div>
+          )}
+          {/* Show product dispute image if available */}
+          {dispute?.disputeImage && (
+            <div className="my-6">
+              <span className="text-black font-semibold block mb-1 text-[16px] font-poppins-medium">
+                Picture Added
+              </span>
+              <img
+                src={dispute.disputeImage}
                 alt="Dispute evidence"
                 className="border border-gray-400 rounded w-[220px] h-auto object-contain bg-white"
               />
@@ -168,7 +189,7 @@ const DisputeDetail = () => {
             </div>
           </div>
         )} */}
-        {/* Picture Added */}
+        {/* (legacy) Show imageUrl if present (for backward compatibility) */}
         {dispute.imageUrl && (
           <div className="mb-6">
             <span className="text-black font-semibold block mb-1 text-[16px] font-poppins-medium">

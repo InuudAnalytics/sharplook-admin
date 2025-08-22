@@ -45,7 +45,9 @@ const Header = () => {
         <div className="flex items-center gap-8">
           <button
             className="relative cursor-pointer"
-            onClick={() => navigate("/chat-inbox")}
+            onClick={() =>
+              window.open("https://dashboard.tawk.to/#/dashboard", "_blank")
+            }
           >
             <MdChatBubbleOutline className="text-gray-500 text-2xl" />
           </button>
