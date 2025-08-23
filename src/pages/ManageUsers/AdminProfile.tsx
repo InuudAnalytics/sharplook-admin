@@ -49,6 +49,7 @@ const AdminProfile = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState<Admin | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [admins, setAdmins] = useState<Admin[]>([]);
@@ -102,7 +103,6 @@ const AdminProfile = () => {
   const roleOptions = [
     { value: "SUPERADMIN", label: "Super Admin" },
     { value: "ADMIN", label: "Admin" },
-    { value: "FINANCE_ADMIN", label: "Finance Admin" },
     { value: "ANALYST", label: "Analyst" },
     { value: "CONTENT_MANAGER", label: "Content Manager" },
     { value: "SUPPORT", label: "Support" },
@@ -139,6 +139,7 @@ const AdminProfile = () => {
 
   // Delete admin function
   const handleDeleteAdmin = async (admin: Admin) => {
+    setIsDeleting(true);
     try {
       await HttpClient.delete(`/admin/deleteAdmin/${admin.id}`);
       showToast("Admin deleted successfully", { type: "success" });
@@ -149,6 +150,8 @@ const AdminProfile = () => {
     } catch (error) {
       console.error("Error deleting admin:", error);
       showToast("Failed to delete admin", { type: "error" });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -222,8 +225,6 @@ const AdminProfile = () => {
       SUPER_ADMIN: "Super Admin",
       "SUPER ADMIN": "Super Admin",
       ADMIN: "Admin",
-      FINANCE_ADMIN: "Finance Admin",
-      FINANCEADMIN: "Finance Admin",
       ANALYST: "Analyst",
       CONTENT_MANAGER: "Content Manager",
       CONTENTMANAGER: "Content Manager",
@@ -681,15 +682,23 @@ const AdminProfile = () => {
                     setShowDeleteConfirm(false);
                     setAdminToDelete(null);
                   }}
-                  className="px-6 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
+                  disabled={isDeleting}
+                  className="px-6 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleDeleteAdmin(adminToDelete)}
-                  className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                  disabled={isDeleting}
+                  className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Delete
+                  {isDeleting ? (
+                    <>
+                      <ScaleLoader color="#fff" height={12} width={2} />
+                    </>
+                  ) : (
+                    "Delete"
+                  )}
                 </button>
               </div>
             </div>

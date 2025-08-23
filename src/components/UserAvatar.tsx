@@ -101,8 +101,7 @@ const getRoleColors = (role?: string) => {
         bgColor: "bg-blue-600",
         textColor: "text-white",
       };
-    case "FINANCE_ADMIN":
-    case "FINANCEADMIN":
+
       return {
         bgColor: "bg-green-600",
         textColor: "text-white",
@@ -139,8 +138,6 @@ const formatRole = (role?: string) => {
     SUPER_ADMIN: "Super Admin",
     "SUPER ADMIN": "Super Admin",
     ADMIN: "Admin",
-    FINANCE_ADMIN: "Finance Admin",
-    FINANCEADMIN: "Finance Admin",
     ANALYST: "Analyst",
     CONTENT_MANAGER: "Content Manager",
     CONTENTMANAGER: "Content Manager",

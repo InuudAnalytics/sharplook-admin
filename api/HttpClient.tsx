@@ -1,5 +1,6 @@
 import axios from "axios";
 import "../vite-env.d.ts";
+
 const getToken = () => {
   return localStorage.getItem("token");
 };
@@ -21,4 +22,23 @@ HttpClient.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+// Add response interceptor to handle 403 errors globally
+HttpClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 403) {
+      // Create and dispatch a custom event for 403 errors
+      const unauthorizedEvent = new CustomEvent("unauthorized", {
+        detail: {
+          message:
+            "You are not authorized to view this page. Please contact your administrator if you believe this is an error.",
+          status: 403,
+        },
+      });
+      window.dispatchEvent(unauthorizedEvent);
+    }
+    return Promise.reject(error);
+  }
 );
