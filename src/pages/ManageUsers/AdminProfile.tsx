@@ -9,6 +9,7 @@ import { useToast } from "../../components/useToast";
 import { ScaleLoader } from "react-spinners";
 import { DateConverter } from "../../components/DateConverter";
 import UserAvatar from "../../components/UserAvatar";
+import { AxiosError } from "axios";
 
 interface Admin {
   id: string;
@@ -75,14 +76,17 @@ const AdminProfile = () => {
         showToast("Failed to fetch admins", { type: "error" });
       }
     } catch (error) {
-      console.error("Error fetching admins:", error);
       setError("Failed to fetch admins");
-      showToast("Failed to fetch admins", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to fetch admins", { type: "error" });
+      }
     } finally {
       setLoading(false);
     }
   };
-  console.log({ selectedAdmin });
   // Validation schema
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First name is required"),
@@ -130,8 +134,12 @@ const AdminProfile = () => {
       // Refresh the admin list
       fetchAdmins();
     } catch (error) {
-      console.error("Error creating admin:", error);
-      showToast("Failed to create admin", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to create admin", { type: "error" });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -148,8 +156,12 @@ const AdminProfile = () => {
       // Refresh the admin list
       fetchAdmins();
     } catch (error) {
-      console.error("Error deleting admin:", error);
-      showToast("Failed to delete admin", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to delete admin", { type: "error" });
+      }
     } finally {
       setIsDeleting(false);
     }
@@ -185,8 +197,12 @@ const AdminProfile = () => {
       // Refresh the admin list
       fetchAdmins();
     } catch (error) {
-      console.error("Error updating admin:", error);
-      showToast("Failed to update admin", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to update admin", { type: "error" });
+      }
     } finally {
       setIsSubmitting(false);
     }

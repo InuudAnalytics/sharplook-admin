@@ -10,7 +10,6 @@ const Header = () => {
   const currentPath = location.pathname;
   const { user } = useAppContext();
 
-  console.log({ user });
   return (
     <header className="bg-white px-8 py-2 flex items-center justify-between border-[#0000004D] border-b">
       <div className="flex items-center gap-[200px]">

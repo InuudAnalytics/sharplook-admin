@@ -25,7 +25,6 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/dashboard");
       showToast(res.data.message, { type: "success" });
-      console.log(res.data);
     } catch (error) {
       if (error instanceof AxiosError) {
         showToast(error.response?.data.message, { type: "error" });

@@ -6,6 +6,7 @@ import { HttpClient } from "../../../api/HttpClient";
 import Modal from "../../components/Modal";
 import { ScaleLoader } from "react-spinners";
 import { useToast } from "../../components/useToast";
+import { AxiosError } from "axios";
 
 interface Product {
   id: string;
@@ -54,8 +55,12 @@ const ProductDetail = () => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      console.log(error);
-      // Optionally show error toast
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        // Optionally show error toast
+      }
     } finally {
       setIsApproveLoading(false);
     }
@@ -82,8 +87,12 @@ const ProductDetail = () => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      console.log(error);
-      showToast("Failed to reject product", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to reject product", { type: "error" });
+      }
     } finally {
       setIsRejectLoading(false);
     }

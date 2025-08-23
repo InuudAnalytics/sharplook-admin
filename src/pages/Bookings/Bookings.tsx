@@ -4,6 +4,7 @@ import { HttpClient } from "../../../api/HttpClient";
 import { useToast } from "../../components/useToast";
 import { ScaleLoader } from "react-spinners";
 import { HexConverter } from "../../components/HexConverter";
+import { AxiosError } from "axios";
 
 // Define types based on API response
 interface Client {
@@ -140,7 +141,12 @@ const Bookings = () => {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to fetch bookings";
         setError(errorMessage);
-        showToast(errorMessage, { type: "error" });
+        // Don't show toast for 403 status code
+        if (err instanceof AxiosError && err.response?.status === 403) {
+          // Skip showing toast for 403
+        } else {
+          showToast(errorMessage, { type: "error" });
+        }
       } finally {
         setLoading(false);
       }

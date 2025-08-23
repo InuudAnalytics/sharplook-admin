@@ -174,7 +174,6 @@ const BookingsDetail = () => {
       </div>
     );
   }
-  console.log({ booking });
   return (
     <div className="p-8 pt-[75px] bg-lightgray min-h-screen">
       <div className="flex items-center justify-between mb-6">

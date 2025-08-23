@@ -5,6 +5,7 @@ import { FiPlus } from "react-icons/fi";
 import { HttpClient } from "../../../api/HttpClient";
 import { useToast } from "../../components/useToast";
 import { ScaleLoader } from "react-spinners";
+import { AxiosError } from "axios";
 
 interface Product {
   id: string;
@@ -85,8 +86,12 @@ const EditProduct = () => {
       showToast("Product updated successfully", { type: "success" });
       navigate(-1);
     } catch (error) {
-      console.error("Error updating product:", error);
-      showToast("Failed to update product", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to update product", { type: "error" });
+      }
     } finally {
       setIsLoading(false);
     }

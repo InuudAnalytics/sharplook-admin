@@ -76,7 +76,10 @@ const DisputeDetail = () => {
       navigate(-1);
     } catch (error) {
       if (isAxiosError(error)) {
-        showToast(error.response?.data.message, { type: "error" });
+        // Don't show toast for 403 status code
+        if (error.response?.status !== 403) {
+          showToast(error.response?.data.message, { type: "error" });
+        }
       } else if (error instanceof Error) {
         showToast(error.message, { type: "error" });
       } else {

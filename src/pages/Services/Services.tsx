@@ -77,8 +77,7 @@ const Services = () => {
       } else {
         setError("Failed to fetch service categories");
       }
-    } catch (err) {
-      console.error("Error fetching service categories:", err);
+    } catch {
       setError("Failed to fetch service categories. Please try again.");
     } finally {
       setLoading(false);
@@ -102,8 +101,7 @@ const Services = () => {
       } else {
         setError("Failed to fetch service listings");
       }
-    } catch (err) {
-      console.error("Error fetching service listings:", err);
+    } catch {
       // For now, set empty array if endpoint doesn't exist
       setServiceListings([]);
       // Uncomment the line below if you want to show error instead
@@ -293,8 +291,7 @@ const Services = () => {
       } else {
         setError("Failed to delete service");
       }
-    } catch (err) {
-      console.error("Error deleting service:", err);
+    } catch {
       setError("Failed to delete service. Please try again.");
     } finally {
       setLoading(false);

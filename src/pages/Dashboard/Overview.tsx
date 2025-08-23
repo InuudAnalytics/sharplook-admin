@@ -168,8 +168,8 @@ const Overview = () => {
           .slice(0, 5);
         setBookings(sortedBookings);
       }
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
+    } catch {
+      // Silently handle errors
     } finally {
       setBookingsLoading(false);
     }

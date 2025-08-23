@@ -5,6 +5,7 @@ import { HttpClient } from "../../../api/HttpClient";
 import { useToast } from "../../components/useToast";
 import { ScaleLoader } from "react-spinners";
 import { HexConverter } from "../../components/HexConverter";
+import { AxiosError } from "axios";
 
 // Define types based on API response
 interface Product {
@@ -59,10 +60,8 @@ const Product = () => {
       setError(null);
       try {
         const response = await HttpClient.get("/admin/products");
-        console.log("Full response:", response.data); // Debug log
         if (response.data.success) {
           const responseData = response.data.data as ApiResponse["data"];
-          console.log("Response data:", responseData); // Debug log
 
           // Combine all products from different approval statuses
           let allProducts: Product[] = [];
@@ -77,7 +76,6 @@ const Product = () => {
             allProducts = [...allProducts, ...responseData.REJECTED];
           }
 
-          console.log("All products:", allProducts); // Debug log
           setProducts(allProducts);
         } else {
           setError("Failed to fetch products");
@@ -87,7 +85,12 @@ const Product = () => {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to fetch products";
         setError(errorMessage);
-        showToast(errorMessage, { type: "error" });
+        // Don't show toast for 403 status code
+        if (err instanceof AxiosError && err.response?.status === 403) {
+          // Skip showing toast for 403
+        } else {
+          showToast(errorMessage, { type: "error" });
+        }
       } finally {
         setLoading(false);
       }
@@ -100,12 +103,8 @@ const Product = () => {
   const filterProducts = (products: Product[]) => {
     // Ensure products is an array before filtering
     if (!Array.isArray(products)) {
-      console.warn("Products is not an array:", products);
       return [];
     }
-
-    console.log("Filtering products:", products.length, "products"); // Debug log
-    console.log("Current tab:", tab); // Debug log
 
     let filtered = products.filter(
       (product) =>
@@ -113,8 +112,6 @@ const Product = () => {
         product.description.toLowerCase().includes(search.toLowerCase()) ||
         product.id.toLowerCase().includes(search.toLowerCase())
     );
-
-    console.log("After search filter:", filtered.length, "products"); // Debug log
 
     // Filter by approval status based on current tab
     if (tab === "approval") {
@@ -124,7 +121,6 @@ const Product = () => {
           product.approvalStatus === "APPROVED" ||
           product.approvalStatus === "REJECTED"
       );
-      console.log("After approval filter:", filtered.length, "products"); // Debug log
     }
     // For listings tab, show all products regardless of approval status
 
@@ -200,7 +196,6 @@ const Product = () => {
   const renderTable = (showStatus: boolean = false) => {
     // Ensure products is an array before processing
     if (!Array.isArray(products)) {
-      console.warn("Products state is not an array:", products);
       return (
         <div className="overflow-x-auto rounded-lg border border-gray-100 w-full bg-white">
           <div className="p-8 text-center text-gray-500">

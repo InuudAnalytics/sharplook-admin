@@ -142,8 +142,8 @@ const Analytics = () => {
     try {
       const res = await HttpClient.get("/admin/stats");
       setAnalytics(res.data.data);
-    } catch (error) {
-      console.log(error);
+    } catch {
+      // Siliently handles error
     }
   };
   useEffect(() => {

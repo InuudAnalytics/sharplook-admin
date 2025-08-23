@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { HttpClient } from "../../../api/HttpClient";
 import { useToast } from "../../components/useToast";
+import { AxiosError } from "axios";
 
 interface NotificationItem {
   id: string;
@@ -52,8 +53,12 @@ const Notification = () => {
         setSentNotifications(response.data.broadcasts);
       }
     } catch (error) {
-      console.error("Error fetching notifications:", error);
-      showToast("Failed to fetch notifications", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to fetch notifications", { type: "error" });
+      }
     } finally {
       setIsLoadingNotifications(false);
     }
@@ -94,8 +99,6 @@ const Notification = () => {
         channel: broadcastForm.channel,
       };
 
-      console.log("Broadcast payload:", payload);
-
       const response = await HttpClient.post("/admin/broadcasts", payload);
 
       showToast(response.data.message, {
@@ -113,10 +116,14 @@ const Notification = () => {
         channel: "",
       });
     } catch (error) {
-      console.error("Error sending broadcast:", error);
-      showToast("Failed to send broadcast. Please try again.", {
-        type: "error",
-      });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to send broadcast. Please try again.", {
+          type: "error",
+        });
+      }
     } finally {
       setIsLoading(false);
     }

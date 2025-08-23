@@ -5,6 +5,7 @@ import { HttpClient } from "../../../api/HttpClient";
 import Modal from "../../components/Modal";
 import { ScaleLoader } from "react-spinners";
 import { useToast } from "../../components/useToast";
+import { AxiosError } from "axios";
 
 interface ServiceListing {
   id: string;
@@ -77,8 +78,12 @@ const ServiceDetail = () => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      console.log(error);
-      showToast("Failed to delete service", { type: "error" });
+      // Don't show toast for 403 status code
+      if (error instanceof AxiosError && error.response?.status === 403) {
+        // Skip showing toast for 403
+      } else {
+        showToast("Failed to delete service", { type: "error" });
+      }
     } finally {
       setIsRejectLoading(false);
     }
