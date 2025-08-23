@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import sharplookLogo from "../../assets/img/sharplooklogo.svg";
 import { useNavigate } from "react-router-dom";
 import { HttpClient } from "../../../api/HttpClient";

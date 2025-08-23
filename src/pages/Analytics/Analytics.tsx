@@ -39,8 +39,6 @@ interface Analytics {
   totalPhoneVerified: number;
   totalAcceptedPersonalData: number;
 }
-const emailSignups = 20;
-const phoneSignups = 20;
 
 const salesData = [
   { day: 1, sales: 12000 },
@@ -119,7 +117,6 @@ const Analytics = () => {
   const [vendorPeriod, setVendorPeriod] = useState("Today");
   const [vendorYear, setVendorYear] = useState(2024);
   const [vendorMonth, setVendorMonth] = useState("Jun");
-  const [loading, setLoading] = useState(false);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   // Filtering logic for salesData (demo: only monthly and today supported)
   let filteredSalesData = salesData;
@@ -142,14 +139,11 @@ const Analytics = () => {
     filteredVendorData = vendorSalesData;
   }
   const getAnalytics = async () => {
-    setLoading(true);
     try {
       const res = await HttpClient.get("/admin/stats");
       setAnalytics(res.data.data);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import type { ComponentType } from "react";
 import { useUnauthorized } from "../hooks/useUnauthorized";
 

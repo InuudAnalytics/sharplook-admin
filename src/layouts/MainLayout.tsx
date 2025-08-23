@@ -4,18 +4,14 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 
 interface MainLayoutProps {
-  headerTitle?: string;
   children?: React.ReactNode;
 }
 
-const MainLayout = ({
-  headerTitle = "Overview",
-  children,
-}: MainLayoutProps) => {
+const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="h-screen w-screen">
       <header className="fixed top-0 left-0 w-full z-20">
-        <Header title={headerTitle} />
+        <Header />
       </header>
       <div className="flex h-full pt-[64px]">
         {/* Sidebar: fixed width, fixed position */}
