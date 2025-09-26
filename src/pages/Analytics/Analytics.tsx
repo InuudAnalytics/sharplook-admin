@@ -41,6 +41,7 @@ interface Analytics {
 }
 
 
+
 const salesData = [
   { day: 1, sales: 12000 },
   { day: 2, sales: 9000 },
