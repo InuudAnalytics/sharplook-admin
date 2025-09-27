@@ -100,12 +100,12 @@ const Disputes = () => {
       setError(null);
       try {
         if (activeTab === "service") {
-          const response = await HttpClient.get("/admin/disputes");
+          const response = await HttpClient.get("/disputes/getAllDisputes");
 
-          console.log(response);
+          // console.log(response);
           
-          setDisputes(response.data.data);
-        } else {
+        setDisputes(response.data.disputes);
+          } else {
           const response = await HttpClient.get("/disputes/getOrderDisputes");
           setProductDisputes(response.data);
         }
