@@ -5,7 +5,6 @@ const getToken = () => {
   return localStorage.getItem("token");
 };
 
-
 export const HttpClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
